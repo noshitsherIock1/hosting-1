@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyundai Creta - Auto-Genie</title>
+    <style>
+        /* Resetting default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .question-box {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .question-box h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        
+        .options-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .options-list li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .options-list li a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .options-list li a:hover {
+            background-color: #45a049;
+        }
+        
+        .message-box {
+            background-color: #2196F3;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .final-message {
+            background-color: #FF9800;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Auto-Genie</h1>
+        <h2>Hyundai Creta</h2>
+    </div>
+
+    <div class="container">
+        <!-- Question 1: Down Payment -->
+        <div class="question-box" id="downpayment-question">
+            <h2>Do you have 2.2 Lakhs for down payment?</h2>
+            <ul class="options-list">
+                <li><a href="#" onclick="showMessage('downpayment', true)">Yes</a></li>
+                <li><a href="#" onclick="showMessage('downpayment', false)">No</a></li>
+            </ul>
+        </div>
+
+        <!-- Message Box 1: Down Payment -->
+        <div class="message-box" id="downpayment-message">
+            <p>You can afford the down payment of the car.</p>
+        </div>
+
+        <!-- Question 2: Car Loan -->
+        <div class="question-box" id="carloan-question" style="display: none;">
+            <h2>Are you able to pay the car loan in four years?</h2>
+            <ul class="options-list">
+                <li><a href="#" onclick="showMessage('carloan', true)">Yes</a></li>
+                <li><a href="#" onclick="showMessage('carloan', false)">No</a></li>
+            </ul>
+        </div>
+
+        <!-- Message Box 2: Car Loan - Yes -->
+        <div class="message-box" id="carloan-yes" style="display: none;">
+            <p>You can pay off the loan in four years.</p>
+        </div>
+
+        <!-- Message Box 3: Car Loan - No -->
+        <div class="message-box" id="carloan-no" style="display: none;">
+            <p>You cannot pay off the loan in four years and cannot afford the Hyundai Creta.</p>
+        </div>
+
+        <!-- Question 3: EMI Affordability -->
+        <div class="question-box" id="emi-question" style="display: none;">
+            <h2>Does the EMI, which is 22,000, exceed more than 10% of your Monthly income?</h2>
+            <ul class="options-list">
+                <li><a href="#" onclick="showMessage('emi', true)">Yes</a></li>
+                <li><a href="#" onclick="showMessage('emi', false)">No</a></li>
+            </ul>
+        </div>
+
+        <!-- Message Box 4: EMI Affordability - Yes -->
+        <div class="message-box" id="emi-yes" style="display: none;">
+            <p>You can afford to pay the EMI at stable rates.</p>
+        </div>
+
+        <!-- Message Box 5: EMI Affordability - No -->
+        <div class="message-box" id="emi-no" style="display: none;">
+            <p>You cannot afford to pay the EMI at stable rates.</p>
+        </div>
+
+        <!-- Final Message Box -->
+        <div class="final-message" id="final-message" style="display: none;">
+            <p>Congratulations, you can afford to buy a Hyundai Creta!</p>
+        </div>
+
+        <!-- Final Message Box - No -->
+        <div class="final-message" id="final-message-no" style="display: none;">
+            <p>Congratulations, you cannot afford to buy a Hyundai Creta.</p>
+        </div>
+    </div>
+
+    <script>
+        function showMessage(type, option) {
+            if (type === 'downpayment') {
+                var messageElement = document.getElementById('downpayment-message');
+                if (option) {
+                    messageElement.style.display = 'block';
+                    document.getElementById('carloan-question').style.display = 'block';
+                } else {
+                    document.getElementById('carloan-no').style.display = 'block';
+                    document.getElementById('final-message-no').style.display = 'block';
+                }
+            } else if (type === 'carloan') {
+                var yesMessage = document.getElementById('carloan-yes');
+                var noMessage = document.getElementById('carloan-no');
+                if (option) {
+                    yesMessage.style.display = 'block';
+                    document.getElementById('emi-question').style.display = 'block';
+                } else {
+                    noMessage.style.display = 'block';
+                    document.getElementById('final-message-no').style.display = 'block';
+                }
+            } else if (type === 'emi') {
+                var yesMessage = document.getElementById('emi-yes');
+                var noMessage = document.getElementById('emi-no');
+                if (option) {
+                    yesMessage.style.display = 'block';
+                    document.getElementById('final-message').style.display = 'block';
+                } else {
+                    noMessage.style.display = 'block';
+                    document.getElementById('final-message-no').style.display = 'block';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
